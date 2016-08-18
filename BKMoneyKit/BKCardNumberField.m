@@ -113,7 +113,7 @@
     BKCardPatternInfo *patternInfo = self.cardNumberFormatter.cardPatternInfo;
     UIImage *cardLogoImage = [BKMoneyUtils cardLogoImageWithShortName:patternInfo.shortName];
     
-    if (self.animateCardLogo) {
+    if (!self.animateCardLogo) {
         self.cardLogoImageView.image = cardLogoImage;
         return;
     }
