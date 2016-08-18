@@ -29,6 +29,8 @@
     
     _numberCharacterSet = [BKMoneyUtils numberCharacterSet];
     
+    _animateCardLogo = YES;
+    
     self.keyboardType = UIKeyboardTypeNumberPad;
     self.clearButtonMode = UITextFieldViewModeAlways;
     
@@ -102,15 +104,46 @@
 
 - (void)updateCardLogoImage
 {
+    static NSString *cardShortName = nil;   //  Stores short name of the card when image was changed the last time
+    
     if (nil == self.cardLogoImageView) {
         return;
     }
     
     BKCardPatternInfo *patternInfo = self.cardNumberFormatter.cardPatternInfo;
-    
     UIImage *cardLogoImage = [BKMoneyUtils cardLogoImageWithShortName:patternInfo.shortName];
     
+    if (self.animateCardLogo) {
+        self.cardLogoImageView.image = cardLogoImage;
+        return;
+    }
+    
+    if (!patternInfo.shortName) {
+        //  Unknown card type
+        //  Change card image without animation
+        self.cardLogoImageView.image = cardLogoImage;
+        return;
+    }
+    
+    //  Since tupdateCardLogoImage is called each time the cardNumberField is updated,
+    //  the image need not be changed is card type is the same
+    if ([patternInfo.shortName isEqualToString:cardShortName]) {
+        //  Card type is the same
+        //  Do nothing
+        return;
+    }
+    
+    //  Card type is different
+    cardShortName = patternInfo.shortName;
+    
     self.cardLogoImageView.image = cardLogoImage;
+    
+    [UIView transitionWithView:self.cardLogoImageView
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    animations:^{
+                        self.cardLogoImageView.image = cardLogoImage;
+                    } completion:nil];
 }
 
 #pragma mark - Public Methods
