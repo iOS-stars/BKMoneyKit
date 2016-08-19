@@ -17,6 +17,12 @@
 @property (nonatomic) BOOL showsCardLogo;
 
 /**
+ * A boolean indicating whether to animate the card image.
+ * Defaults to YES
+ */
+@property (nonatomic) BOOL animateCardLogo;
+
+/**
  * The card number without blank space. (e.g., 1234123412341234)
  * Use this property to set or get card number instead of text property.
  */
