@@ -122,10 +122,11 @@
         //  Unknown card type
         //  Change card image without animation
         self.cardLogoImageView.image = cardLogoImage;
+        cardShortName = nil;
         return;
     }
     
-    //  Since tupdateCardLogoImage is called each time the cardNumberField is updated,
+    //  Since updateCardLogoImage is called each time the cardNumberField is updated,
     //  the image need not be changed is card type is the same
     if ([patternInfo.shortName isEqualToString:cardShortName]) {
         //  Card type is the same
